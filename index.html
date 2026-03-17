@@ -1,0 +1,1062 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>一期一和 -ICHIGO ICHIWA- | 1日店長イベント</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;1,300;1,400&family=Noto+Serif+JP:wght@200;300;400&family=Zen+Old+Mincho:wght@400;700;900&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --ink: #1a1208;
+    --washi: #f5f0e8;
+    --aged: #e8dfc8;
+    --gold: #c9a84c;
+    --gold-light: #e8c97a;
+    --lacquer: #2d1a0e;
+    --copper: #a0704a;
+    --mist: rgba(245, 240, 232, 0.06);
+    --shadow-deep: rgba(26, 18, 8, 0.85);
+  }
+
+  *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    background: var(--lacquer);
+    color: var(--washi);
+    font-family: 'Noto Serif JP', serif;
+    overflow-x: hidden;
+    cursor: none;
+  }
+
+  /* Custom Cursor */
+  .cursor {
+    position: fixed;
+    width: 8px;
+    height: 8px;
+    background: var(--gold);
+    border-radius: 50%;
+    pointer-events: none;
+    z-index: 9999;
+    transform: translate(-50%, -50%);
+    transition: transform 0.1s ease;
+    mix-blend-mode: screen;
+  }
+  .cursor-ring {
+    position: fixed;
+    width: 36px;
+    height: 36px;
+    border: 1px solid rgba(201, 168, 76, 0.5);
+    border-radius: 50%;
+    pointer-events: none;
+    z-index: 9998;
+    transform: translate(-50%, -50%);
+    transition: transform 0.25s ease, width 0.3s ease, height 0.3s ease;
+  }
+
+  /* Grain overlay */
+  body::before {
+    content: '';
+    position: fixed;
+    inset: 0;
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.08'/%3E%3C/svg%3E");
+    pointer-events: none;
+    z-index: 9000;
+    opacity: 0.4;
+  }
+
+  /* ─────────────── HERO ─────────────── */
+  .hero {
+    position: relative;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+  }
+
+  .hero-bg {
+    position: absolute;
+    inset: 0;
+    background:
+      radial-gradient(ellipse 60% 80% at 50% 20%, rgba(201, 168, 76, 0.08) 0%, transparent 60%),
+      radial-gradient(ellipse 40% 60% at 80% 80%, rgba(160, 112, 74, 0.12) 0%, transparent 50%),
+      linear-gradient(160deg, #1a1208 0%, #2d1a0e 40%, #1a1208 100%);
+  }
+
+  /* Torii SVG background */
+  .torii-bg {
+    position: absolute;
+    bottom: 0;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 100%;
+    max-width: 900px;
+    opacity: 0.07;
+    animation: toriiFloat 8s ease-in-out infinite;
+  }
+
+  @keyframes toriiFloat {
+    0%, 100% { transform: translateX(-50%) translateY(0); }
+    50% { transform: translateX(-50%) translateY(-12px); }
+  }
+
+  /* Vertical lines decoration */
+  .hero-lines {
+    position: absolute;
+    inset: 0;
+    overflow: hidden;
+    pointer-events: none;
+  }
+  .hero-lines::before,
+  .hero-lines::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    width: 1px;
+    background: linear-gradient(to bottom, transparent, rgba(201, 168, 76, 0.25), transparent);
+  }
+  .hero-lines::before { left: 15%; animation: lineShimmer 4s ease-in-out infinite; }
+  .hero-lines::after  { right: 15%; animation: lineShimmer 4s ease-in-out infinite 2s; }
+
+  @keyframes lineShimmer {
+    0%, 100% { opacity: 0.3; }
+    50% { opacity: 0.8; }
+  }
+
+  /* Badge */
+  .invite-badge {
+    position: absolute;
+    top: 40px;
+    right: 48px;
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 11px;
+    letter-spacing: 0.35em;
+    color: var(--gold);
+    border: 1px solid rgba(201, 168, 76, 0.4);
+    padding: 8px 18px;
+    text-transform: uppercase;
+    animation: fadeInDown 1s ease 0.5s both;
+  }
+
+  /* Date badge top left */
+  .date-badge {
+    position: absolute;
+    top: 40px;
+    left: 48px;
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 12px;
+    letter-spacing: 0.25em;
+    color: rgba(245, 240, 232, 0.5);
+    animation: fadeInDown 1s ease 0.5s both;
+  }
+
+  .hero-content {
+    position: relative;
+    z-index: 2;
+    text-align: center;
+    padding: 0 24px;
+    animation: heroReveal 1.4s cubic-bezier(0.16, 1, 0.3, 1) 0.3s both;
+  }
+
+  @keyframes heroReveal {
+    from { opacity: 0; transform: translateY(40px); }
+    to   { opacity: 1; transform: translateY(0); }
+  }
+
+  .hero-kana {
+    font-family: 'Zen Old Mincho', serif;
+    font-size: clamp(11px, 2vw, 14px);
+    letter-spacing: 0.6em;
+    color: var(--gold);
+    margin-bottom: 24px;
+    display: block;
+  }
+
+  .hero-title {
+    font-family: 'Zen Old Mincho', serif;
+    font-size: clamp(56px, 14vw, 130px);
+    font-weight: 900;
+    line-height: 1;
+    letter-spacing: 0.08em;
+    color: var(--washi);
+    text-shadow: 0 0 80px rgba(201, 168, 76, 0.2);
+    margin-bottom: 16px;
+  }
+
+  .hero-roman {
+    font-family: 'Cormorant Garamond', serif;
+    font-style: italic;
+    font-size: clamp(14px, 3vw, 22px);
+    letter-spacing: 0.4em;
+    color: rgba(245, 240, 232, 0.4);
+    margin-bottom: 48px;
+  }
+
+  .hero-tagline {
+    font-family: 'Noto Serif JP', serif;
+    font-weight: 200;
+    font-size: clamp(12px, 2vw, 15px);
+    letter-spacing: 0.25em;
+    line-height: 2.2;
+    color: rgba(245, 240, 232, 0.65);
+    max-width: 480px;
+    margin: 0 auto 56px;
+  }
+
+  .hero-cta {
+    display: inline-block;
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 14px;
+    letter-spacing: 0.4em;
+    color: var(--gold);
+    border: 1px solid var(--gold);
+    padding: 16px 40px;
+    text-decoration: none;
+    text-transform: uppercase;
+    position: relative;
+    overflow: hidden;
+    transition: color 0.4s ease;
+  }
+  .hero-cta::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: var(--gold);
+    transform: scaleX(0);
+    transform-origin: left;
+    transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+  }
+  .hero-cta:hover { color: var(--lacquer); }
+  .hero-cta:hover::before { transform: scaleX(1); }
+  .hero-cta span { position: relative; z-index: 1; }
+
+  /* Scroll indicator */
+  .scroll-hint {
+    position: absolute;
+    bottom: 36px;
+    left: 50%;
+    transform: translateX(-50%);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 8px;
+    color: rgba(245, 240, 232, 0.3);
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 11px;
+    letter-spacing: 0.3em;
+    animation: scrollPulse 2s ease-in-out infinite;
+  }
+  .scroll-hint::after {
+    content: '';
+    display: block;
+    width: 1px;
+    height: 40px;
+    background: linear-gradient(to bottom, rgba(201,168,76,0.5), transparent);
+  }
+  @keyframes scrollPulse {
+    0%, 100% { opacity: 0.4; transform: translateX(-50%) translateY(0); }
+    50% { opacity: 0.8; transform: translateX(-50%) translateY(6px); }
+  }
+
+  /* ─────────────── INFO STRIP ─────────────── */
+  .info-strip {
+    background: rgba(201, 168, 76, 0.08);
+    border-top: 1px solid rgba(201, 168, 76, 0.2);
+    border-bottom: 1px solid rgba(201, 168, 76, 0.2);
+    padding: 28px 0;
+    overflow: hidden;
+    position: relative;
+  }
+  .info-strip-inner {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 0;
+    flex-wrap: wrap;
+  }
+  .info-item {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 12px 48px;
+    border-right: 1px solid rgba(201, 168, 76, 0.2);
+    opacity: 0;
+    animation: fadeInUp 0.8s ease forwards;
+  }
+  .info-item:last-child { border-right: none; }
+  .info-item:nth-child(1) { animation-delay: 0.1s; }
+  .info-item:nth-child(2) { animation-delay: 0.2s; }
+  .info-item:nth-child(3) { animation-delay: 0.3s; }
+  .info-item:nth-child(4) { animation-delay: 0.4s; }
+  .info-label {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 10px;
+    letter-spacing: 0.4em;
+    color: var(--gold);
+    text-transform: uppercase;
+    margin-bottom: 6px;
+  }
+  .info-value {
+    font-family: 'Zen Old Mincho', serif;
+    font-size: clamp(15px, 2.5vw, 20px);
+    color: var(--washi);
+    letter-spacing: 0.05em;
+  }
+
+  /* ─────────────── CONCEPT ─────────────── */
+  .section {
+    padding: 120px 24px;
+    max-width: 1200px;
+    margin: 0 auto;
+  }
+
+  .section-label {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 11px;
+    letter-spacing: 0.5em;
+    color: var(--gold);
+    text-transform: uppercase;
+    margin-bottom: 40px;
+    display: flex;
+    align-items: center;
+    gap: 20px;
+  }
+  .section-label::after {
+    content: '';
+    flex: 1;
+    height: 1px;
+    background: linear-gradient(to right, rgba(201,168,76,0.4), transparent);
+    max-width: 120px;
+  }
+
+  .concept-layout {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 80px;
+    align-items: center;
+  }
+
+  .concept-text h2 {
+    font-family: 'Zen Old Mincho', serif;
+    font-size: clamp(32px, 5vw, 52px);
+    font-weight: 400;
+    line-height: 1.6;
+    letter-spacing: 0.1em;
+    color: var(--washi);
+    margin-bottom: 32px;
+  }
+
+  .concept-text p {
+    font-weight: 200;
+    font-size: 15px;
+    line-height: 2.4;
+    color: rgba(245, 240, 232, 0.65);
+    letter-spacing: 0.08em;
+  }
+
+  .concept-kanji {
+    text-align: center;
+    position: relative;
+  }
+  .concept-kanji .big-char {
+    font-family: 'Zen Old Mincho', serif;
+    font-size: clamp(120px, 20vw, 220px);
+    font-weight: 900;
+    color: transparent;
+    -webkit-text-stroke: 1px rgba(201, 168, 76, 0.3);
+    line-height: 1;
+    display: block;
+    animation: kanjiGlow 4s ease-in-out infinite;
+  }
+  @keyframes kanjiGlow {
+    0%, 100% { -webkit-text-stroke-color: rgba(201,168,76,0.2); }
+    50% { -webkit-text-stroke-color: rgba(201,168,76,0.55); }
+  }
+
+  /* ─────────────── CX PILLARS ─────────────── */
+  .pillars-section {
+    padding: 120px 24px;
+    background: rgba(0,0,0,0.3);
+    position: relative;
+    overflow: hidden;
+  }
+  .pillars-section::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: radial-gradient(ellipse 80% 60% at 50% 50%, rgba(201,168,76,0.04) 0%, transparent 70%);
+  }
+  .pillars-inner {
+    max-width: 1200px;
+    margin: 0 auto;
+    position: relative;
+    z-index: 1;
+  }
+
+  .pillars-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 2px;
+    margin-top: 60px;
+  }
+
+  .pillar {
+    padding: 48px 32px;
+    border: 1px solid rgba(201, 168, 76, 0.12);
+    position: relative;
+    overflow: hidden;
+    transition: border-color 0.4s ease;
+    cursor: default;
+  }
+  .pillar::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: rgba(201, 168, 76, 0.04);
+    opacity: 0;
+    transition: opacity 0.4s ease;
+  }
+  .pillar:hover { border-color: rgba(201, 168, 76, 0.4); }
+  .pillar:hover::before { opacity: 1; }
+
+  .pillar-en {
+    font-family: 'Cormorant Garamond', serif;
+    font-style: italic;
+    font-size: 32px;
+    color: rgba(201, 168, 76, 0.4);
+    margin-bottom: 4px;
+    display: block;
+  }
+  .pillar-jp {
+    font-family: 'Zen Old Mincho', serif;
+    font-size: 22px;
+    color: var(--washi);
+    margin-bottom: 20px;
+    display: block;
+    letter-spacing: 0.1em;
+  }
+  .pillar-desc {
+    font-weight: 200;
+    font-size: 13px;
+    line-height: 2.2;
+    color: rgba(245, 240, 232, 0.5);
+    letter-spacing: 0.05em;
+  }
+  .pillar-num {
+    position: absolute;
+    top: 16px;
+    right: 20px;
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 11px;
+    color: rgba(201, 168, 76, 0.3);
+    letter-spacing: 0.2em;
+  }
+
+  /* ─────────────── MENU ─────────────── */
+  .menu-section {
+    padding: 120px 24px;
+    max-width: 1200px;
+    margin: 0 auto;
+  }
+
+  .menu-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 40px;
+    margin-top: 60px;
+  }
+
+  .menu-card {
+    position: relative;
+    padding: 48px 36px;
+    border-top: 1px solid rgba(201, 168, 76, 0.3);
+  }
+  .menu-card::after {
+    content: '';
+    position: absolute;
+    top: -1px;
+    left: 0;
+    width: 0;
+    height: 1px;
+    background: var(--gold);
+    transition: width 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+  }
+  .menu-card:hover::after { width: 100%; }
+
+  .menu-icon {
+    font-size: 28px;
+    margin-bottom: 20px;
+    display: block;
+    filter: grayscale(0.3);
+  }
+  .menu-category {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 11px;
+    letter-spacing: 0.4em;
+    color: var(--gold);
+    text-transform: uppercase;
+    margin-bottom: 12px;
+    display: block;
+  }
+  .menu-title {
+    font-family: 'Zen Old Mincho', serif;
+    font-size: 22px;
+    color: var(--washi);
+    margin-bottom: 16px;
+    letter-spacing: 0.05em;
+  }
+  .menu-desc {
+    font-weight: 200;
+    font-size: 13px;
+    line-height: 2.2;
+    color: rgba(245, 240, 232, 0.5);
+    letter-spacing: 0.05em;
+  }
+
+  /* ─────────────── FLOW ─────────────── */
+  .flow-section {
+    padding: 120px 24px;
+    background: rgba(0,0,0,0.25);
+    position: relative;
+  }
+  .flow-inner {
+    max-width: 700px;
+    margin: 0 auto;
+    position: relative;
+  }
+
+  .flow-line {
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: 24px;
+    width: 1px;
+    background: linear-gradient(to bottom, transparent, rgba(201,168,76,0.3), transparent);
+  }
+
+  .flow-list {
+    margin-top: 60px;
+    list-style: none;
+    display: flex;
+    flex-direction: column;
+    gap: 0;
+  }
+
+  .flow-item {
+    display: grid;
+    grid-template-columns: 80px 1fr;
+    gap: 32px;
+    padding: 40px 0;
+    border-bottom: 1px solid rgba(201, 168, 76, 0.1);
+    position: relative;
+    opacity: 0;
+    animation: fadeInLeft 0.8s ease forwards;
+  }
+  .flow-item:nth-child(1) { animation-delay: 0.1s; }
+  .flow-item:nth-child(2) { animation-delay: 0.25s; }
+  .flow-item:nth-child(3) { animation-delay: 0.4s; }
+  .flow-item:nth-child(4) { animation-delay: 0.55s; }
+  .flow-item:last-child { border-bottom: none; }
+
+  .flow-time {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 20px;
+    color: var(--gold);
+    letter-spacing: 0.05em;
+    text-align: right;
+    padding-top: 2px;
+  }
+  .flow-content h4 {
+    font-family: 'Zen Old Mincho', serif;
+    font-size: 18px;
+    color: var(--washi);
+    margin-bottom: 8px;
+    letter-spacing: 0.08em;
+  }
+  .flow-content p {
+    font-weight: 200;
+    font-size: 13px;
+    line-height: 2;
+    color: rgba(245, 240, 232, 0.5);
+    letter-spacing: 0.05em;
+  }
+
+  /* ─────────────── VENUE ─────────────── */
+  .venue-section {
+    padding: 120px 24px;
+    max-width: 1200px;
+    margin: 0 auto;
+  }
+  .venue-layout {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 80px;
+    margin-top: 60px;
+    align-items: center;
+  }
+  .venue-art {
+    position: relative;
+    aspect-ratio: 3/4;
+    overflow: hidden;
+  }
+  .venue-art-inner {
+    width: 100%;
+    height: 100%;
+    background:
+      linear-gradient(160deg, rgba(45,26,14,0.9) 0%, rgba(26,18,8,0.95) 100%);
+    border: 1px solid rgba(201,168,76,0.15);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+    overflow: hidden;
+  }
+  .venue-art-inner::before {
+    content: '';
+    position: absolute;
+    inset: 20px;
+    border: 1px solid rgba(201,168,76,0.1);
+  }
+  .venue-kanji-art {
+    font-family: 'Zen Old Mincho', serif;
+    font-size: 100px;
+    font-weight: 900;
+    color: transparent;
+    -webkit-text-stroke: 1px rgba(201,168,76,0.2);
+    writing-mode: vertical-rl;
+    letter-spacing: 0.2em;
+    line-height: 1;
+  }
+  .venue-corner {
+    position: absolute;
+    width: 20px;
+    height: 20px;
+    border-color: rgba(201,168,76,0.4);
+    border-style: solid;
+  }
+  .venue-corner.tl { top: 12px; left: 12px; border-width: 1px 0 0 1px; }
+  .venue-corner.tr { top: 12px; right: 12px; border-width: 1px 1px 0 0; }
+  .venue-corner.bl { bottom: 12px; left: 12px; border-width: 0 0 1px 1px; }
+  .venue-corner.br { bottom: 12px; right: 12px; border-width: 0 1px 1px 0; }
+
+  .venue-info h3 {
+    font-family: 'Zen Old Mincho', serif;
+    font-size: clamp(28px, 4vw, 42px);
+    color: var(--washi);
+    line-height: 1.5;
+    letter-spacing: 0.08em;
+    margin-bottom: 32px;
+  }
+  .venue-detail {
+    display: flex;
+    flex-direction: column;
+    gap: 24px;
+  }
+  .venue-row {
+    display: flex;
+    gap: 24px;
+    align-items: flex-start;
+    padding-bottom: 24px;
+    border-bottom: 1px solid rgba(201,168,76,0.1);
+  }
+  .venue-row:last-child { border-bottom: none; }
+  .venue-row-label {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 11px;
+    letter-spacing: 0.35em;
+    color: var(--gold);
+    text-transform: uppercase;
+    min-width: 70px;
+    padding-top: 3px;
+  }
+  .venue-row-val {
+    font-family: 'Noto Serif JP', serif;
+    font-weight: 300;
+    font-size: 15px;
+    color: rgba(245, 240, 232, 0.75);
+    line-height: 1.8;
+    letter-spacing: 0.05em;
+  }
+
+  /* ─────────────── FOOTER ─────────────── */
+  footer {
+    padding: 80px 24px 40px;
+    text-align: center;
+    border-top: 1px solid rgba(201, 168, 76, 0.15);
+    position: relative;
+    overflow: hidden;
+  }
+  footer::before {
+    content: '縁';
+    position: absolute;
+    top: -40px;
+    left: 50%;
+    transform: translateX(-50%);
+    font-family: 'Zen Old Mincho', serif;
+    font-size: 200px;
+    font-weight: 900;
+    color: transparent;
+    -webkit-text-stroke: 1px rgba(201,168,76,0.05);
+    pointer-events: none;
+  }
+  .footer-title {
+    font-family: 'Zen Old Mincho', serif;
+    font-size: clamp(32px, 6vw, 56px);
+    font-weight: 900;
+    color: var(--washi);
+    letter-spacing: 0.15em;
+    margin-bottom: 12px;
+    position: relative;
+  }
+  .footer-sub {
+    font-family: 'Cormorant Garamond', serif;
+    font-style: italic;
+    font-size: 16px;
+    letter-spacing: 0.3em;
+    color: rgba(201,168,76,0.5);
+    margin-bottom: 48px;
+    position: relative;
+  }
+  .footer-note {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 12px;
+    letter-spacing: 0.3em;
+    color: rgba(245,240,232,0.2);
+    margin-top: 48px;
+    position: relative;
+  }
+
+  /* ─────────────── ANIMATIONS ─────────────── */
+  @keyframes fadeInDown {
+    from { opacity: 0; transform: translateY(-16px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+  @keyframes fadeInUp {
+    from { opacity: 0; transform: translateY(24px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+  @keyframes fadeInLeft {
+    from { opacity: 0; transform: translateX(-24px); }
+    to { opacity: 1; transform: translateX(0); }
+  }
+
+  /* ─────────────── RESPONSIVE ─────────────── */
+  @media (max-width: 900px) {
+    .concept-layout,
+    .venue-layout { grid-template-columns: 1fr; gap: 48px; }
+    .concept-kanji .big-char { font-size: 140px; }
+    .pillars-grid { grid-template-columns: 1fr 1fr; }
+    .menu-grid { grid-template-columns: 1fr; gap: 0; }
+    .invite-badge,
+    .date-badge { position: static; display: block; margin: 16px auto; text-align: center; }
+    .hero { padding-top: 80px; }
+    .venue-art { aspect-ratio: 4/3; }
+  }
+  @media (max-width: 600px) {
+    .pillars-grid { grid-template-columns: 1fr; }
+    .info-item { padding: 12px 24px; }
+    .flow-item { grid-template-columns: 64px 1fr; gap: 20px; }
+    .section { padding: 80px 16px; }
+  }
+</style>
+</head>
+<body>
+
+<div class="cursor" id="cursor"></div>
+<div class="cursor-ring" id="cursorRing"></div>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="hero-bg"></div>
+  <div class="hero-lines"></div>
+
+  <svg class="torii-bg" viewBox="0 0 800 500" fill="none" xmlns="http://www.w3.org/2000/svg">
+    <rect x="60" y="80" width="24" height="380" fill="white"/>
+    <rect x="716" y="80" width="24" height="380" fill="white"/>
+    <rect x="30" y="80" width="740" height="28" rx="4" fill="white"/>
+    <rect x="60" y="130" width="680" height="20" rx="3" fill="white"/>
+    <rect x="30" y="68" width="740" height="16" rx="3" fill="white"/>
+    <rect x="44" y="52" width="712" height="24" rx="4" fill="white"/>
+    <rect x="0" y="42" width="800" height="18" rx="3" fill="white"/>
+  </svg>
+
+  <div class="invite-badge">Invitation Only</div>
+  <div class="date-badge">April 9, 2026</div>
+
+  <div class="hero-content">
+    <span class="hero-kana">いちご　いちわ</span>
+    <h1 class="hero-title">一期一和</h1>
+    <p class="hero-roman">— Ichigo Ichiwa —</p>
+    <p class="hero-tagline">
+      渋谷・代官山の隠れ家で、<br>
+      その日、その瞬間にしか生まれない<br>
+      「縁」と「和」を紡ぐ
+    </p>
+    <a href="#concept" class="hero-cta"><span>詳細を見る &nbsp; Discover</span></a>
+  </div>
+
+  <div class="scroll-hint">Scroll</div>
+</section>
+
+<!-- INFO STRIP -->
+<div class="info-strip">
+  <div class="info-strip-inner">
+    <div class="info-item">
+      <span class="info-label">Date</span>
+      <span class="info-value">4月9日（木）</span>
+    </div>
+    <div class="info-item">
+      <span class="info-label">Time</span>
+      <span class="info-value">18:00 – 23:30</span>
+    </div>
+    <div class="info-item">
+      <span class="info-label">Location</span>
+      <span class="info-value">Torii At Tsugi</span>
+    </div>
+    <div class="info-item">
+      <span class="info-label">Access</span>
+      <span class="info-value">渋谷駅/代官山駅から徒歩7分</span>
+    </div>
+  </div>
+</div>
+
+<!-- CONCEPT -->
+<section class="section" id="concept">
+  <div class="section-label">Concept</div>
+  <div class="concept-layout">
+    <div class="concept-text">
+      <h2>
+        間借りの夜に<br>
+        「縁」が生まれる
+      </h2>
+      <p>
+        代官山の静かな路地裏に佇む「Torii At Tsugi」。<br>
+        この期間限定・間借りという一期一会の場所で、<br>
+        大切な人脈を交差させます。<br>
+        <br>
+        単なる飲食の夜ではなく、<br>
+        一人ひとりの思いが継承され、<br>
+        新しい繋がりが芽吹く——<br>
+        縁を繋ぐ特別な空間にしたいと思っています。
+      </p>
+    </div>
+    <div class="concept-kanji">
+      <span class="big-char">縁</span>
+    </div>
+  </div>
+</section>
+
+<!-- CX PILLARS -->
+<section class="pillars-section" id="experience">
+  <div class="pillars-inner">
+    <div class="section-label">Experience</div>
+    <div class="pillars-grid">
+      <div class="pillar">
+        <span class="pillar-num">01</span>
+        <span class="pillar-en">Connection</span>
+        <span class="pillar-jp">結</span>
+        <p class="pillar-desc">大切な人同士が自然に繋がり、コミュニティの垣根を超えた心地よい縁が生まれる夜。</p>
+      </div>
+      <div class="pillar">
+        <span class="pillar-num">02</span>
+        <span class="pillar-en">Exclusive</span>
+        <span class="pillar-jp">静</span>
+        <p class="pillar-desc">都心の喧騒を忘れ、招待された知り合い同士の落ち着いた安らぎの空間。</p>
+      </div>
+      <div class="pillar">
+        <span class="pillar-num">03</span>
+        <span class="pillar-en">Dialogue</span>
+        <span class="pillar-jp">聴</span>
+        <p class="pillar-desc">カウンター越しに一人ひとりと向き合い、互いの言葉に耳を傾ける安らぎある時間。</p>
+      </div>
+      <div class="pillar">
+        <span class="pillar-num">04</span>
+        <span class="pillar-en">Inherit</span>
+        <span class="pillar-jp">継</span>
+        <p class="pillar-desc">「人の思いを継いでいく」——間借り店舗という場が持つ文脈を大切にする一夜。</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- MENU -->
+<section class="menu-section" id="menu">
+  <div class="section-label">Menu</div>
+  <div class="menu-grid">
+    <div class="menu-card">
+      <span class="menu-icon">🌾</span>
+      <span class="menu-category">Local Roots</span>
+      <h3 class="menu-title">ルーツ</h3>
+      <p class="menu-desc">特別なお酒を厳選。<br>ルーツが宿る一杯で、ゆかりのある土地の空気を感じて。</p>
+    </div>
+    <div class="menu-card">
+      <span class="menu-icon">🍸</span>
+      <span class="menu-category">Modern Twist</span>
+      <h3 class="menu-title">当日限定の一杯</h3>
+      <p class="menu-desc">春先に合わせた桜テイストのクラフトジンなどを企画予定。この夜だけの特別なラインナップをご用意。都会の感性と、様々な記憶が交差する味わい。</p>
+    </div>
+    <div class="menu-card">
+      <span class="menu-icon">🍷</span>
+      <span class="menu-category">Signature</span>
+      <h3 class="menu-title">シグネチャーの一本</h3>
+      <p class="menu-desc">ゆかりのある土地を中心に、ルーツと嗜好が重なる一本を。またここに来てほしい——そんな想いを込めて。</p>
+    </div>
+  </div>
+</section>
+
+<!-- FLOW -->
+<section class="flow-section" id="flow">
+  <div class="flow-inner">
+    <div class="section-label">Evening Flow</div>
+    <div class="flow-line"></div>
+    <ul class="flow-list">
+      <li class="flow-item">
+        <span class="flow-time">18:00</span>
+        <div class="flow-content">
+          <h4>開場 / Open</h4>
+          <p>扉を開ければ、縁を繋ぐ特別な一夜が始まります。ゆっくりと、お好きなタイミングでどうぞ。</p>
+        </div>
+      <li class="flow-item">
+        <span class="flow-time">-</span>
+        <div class="flow-content">
+          <h4>カウンターで深く語らう</h4>
+          <p>あえて席数を絞り、隣り合わせた偶然を大切に。カウンター越しに、一人ひとりと向き合う時間を大切に。</p>
+        </div>
+      </li>
+      <li class="flow-item">
+        <span class="flow-time">23:30</span>
+        <div class="flow-content">
+          <h4>閉場 / Close</h4>
+          <p>この夜の縁が、日常に戻ったあとも続きますように。またいつか、どこかで。</p>
+        </div>
+      </li>
+    </ul>
+  </div>
+</section>
+
+<!-- VENUE -->
+<section class="venue-section" id="venue">
+  <div class="section-label">Venue</div>
+  <div class="venue-layout">
+    <div class="venue-art">
+      <div class="venue-art-inner">
+        <span class="venue-kanji-art">隠れ家</span>
+        <div class="venue-corner tl"></div>
+        <div class="venue-corner tr"></div>
+        <div class="venue-corner bl"></div>
+        <div class="venue-corner br"></div>
+      </div>
+    </div>
+    <div class="venue-info">
+      <h3>Torii At Tsugi</h3>
+      <div class="venue-detail">
+        <div class="venue-row">
+          <span class="venue-row-label">場所</span>
+          <span class="venue-row-val">渋谷駅/代官山駅から徒歩7分<br><small style="font-size:12px;opacity:0.6;">※詳細は招待メッセージにてご確認ください</small></span>
+        </div>
+        <div class="venue-row">
+          <span class="venue-row-label">日時</span>
+          <span class="venue-row-val">2025年4月9日（木）<br>18:00 – 23:30</span>
+        </div>
+        <div class="venue-row">
+          <span class="venue-row-label">形式</span>
+          <span class="venue-row-val">招待制・1日店長イベント<br>お気軽にご友人のご同伴も歓迎します</span>
+        </div>
+        <div class="venue-row">
+          <span class="venue-row-label">想い</span>
+          <span class="venue-row-val">素敵な機会を頂いた<br>オーナー様、yujiさんへの感謝も込めて——<br>また次の縁へとつないでいきます。</span>
+        </div>
+        <div class="venue-row">
+          <span class="venue-row-label">予約</span>
+          <span class="venue-row-val">・席が埋まり次第満席となります<br>・事前予約に関してはDM/LINE等で一度ご連絡ください（今後予約フォーム等をご案内する可能性はございます）</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Map Section -->
+  <div class="venue-map-container" style="margin-top: 80px;">
+    <div class="section-label" style="margin-bottom: 40px;">Access Map</div>
+    <div class="section-label2" style="margin-bottom: 40px;">〒150-0032 東京都渋谷区鶯谷町１−２ パル代官山ビル 1F</div>
+    <div class="map-wrapper" style="max-width: 100%; border: 1px solid rgba(201, 168, 76, 0.15); border-radius: 2px; overflow: hidden; background: rgba(0,0,0,0.2);">
+      <iframe
+        src="https://www.google.com/maps/embed?pb=!1m14!1m8!1m3!1d3241.9464485604017!2d139.704903!3d35.653691!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x60188bf27781ee31%3A0xa31c79ee3b8ec3d0!2sToriiAt!5e0!3m2!1sja!2sjp!4v1773583734362!5m2!1sja!2sjp"
+        width="100%"
+        height="450"
+        style="border:0; display: block;"
+        allowfullscreen=""
+        loading="lazy"
+        referrerpolicy="no-referrer-when-downgrade">
+      </iframe>
+    </div>
+    <div style="margin-top: 24px; text-align: center;">
+      <a href="https://maps.app.goo.gl/fDZhrUrfuPqhqHPo7" target="_blank" rel="noopener noreferrer" style="display: inline-block; font-family: 'Cormorant Garamond', serif; font-size: 13px; letter-spacing: 0.3em; color: var(--gold); text-decoration: none; border-bottom: 1px solid rgba(201, 168, 76, 0.3); padding-bottom: 4px; transition: all 0.3s ease;">
+        Google Mapで開く →
+      </a>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <p class="footer-title">一期一和</p>
+  <p class="footer-sub">— See You in the Next Chapter —</p>
+  <p style="font-family:'Noto Serif JP';font-weight:200;font-size:13px;color:rgba(245,240,232,0.4);letter-spacing:0.15em;line-height:2.4;max-width:400px;margin:0 auto;position:relative;">
+    この夜に集まるすべての人へ——<br>
+    落ち着いてゆっくり語り合いましょう。<br>
+    今夜を大切に。
+  </p>
+  <p class="footer-note">© 2025 一期一和 1-Day Bar Event · Torii At Tsugi · Daikanyama, Tokyo</p>
+</footer>
+
+<script>
+  // Custom cursor
+  const cursor = document.getElementById('cursor');
+  const ring = document.getElementById('cursorRing');
+  let mx = 0, my = 0, rx = 0, ry = 0;
+  document.addEventListener('mousemove', e => { mx = e.clientX; my = e.clientY; });
+  const animateCursor = () => {
+    cursor.style.left = mx + 'px';
+    cursor.style.top = my + 'px';
+    rx += (mx - rx) * 0.12;
+    ry += (my - ry) *.12;
+    ring.style.left = rx + 'px';
+    ring.style.top = ry + 'px';
+    requestAnimationFrame(animateCursor);
+  };
+  animateCursor();
+
+  document.querySelectorAll('a, button, .pillar, .menu-card').forEach(el => {
+    el.addEventListener('mouseenter', () => {
+      ring.style.width = '60px';
+      ring.style.height = '60px';
+      ring.style.borderColor = 'rgba(201,168,76,0.8)';
+    });
+    el.addEventListener('mouseleave', () => {
+      ring.style.width = '36px';
+      ring.style.height = '36px';
+      ring.style.borderColor = 'rgba(201,168,76,0.5)';
+    });
+  });
+
+  // Intersection Observer for scroll animations
+  const observer = new IntersectionObserver(entries => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        entry.target.style.opacity = '1';
+        entry.target.style.transform = 'none';
+      }
+    });
+  }, { threshold: 0.1 });
+
+  document.querySelectorAll('.pillar, .menu-card, .flow-item, .info-item').forEach(el => {
+    observer.observe(el);
+  });
+</script>
+</body>
+</html>
